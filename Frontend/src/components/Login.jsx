@@ -2,6 +2,8 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import Signup from "./Signup";
+import axios from "axios";
+import toast from "react-hot-toast";
 // using react-hook-form for input, warnings
 function Login() {
   const {
@@ -10,7 +12,36 @@ function Login() {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => console.log(data);
+  const onSubmit = async (data) => {
+    const userInfo = {
+      email: data.email,
+      password: data.password,
+    };
+    // to call api to store data
+    await axios
+      .post("http://localhost:4001/user/login", userInfo)
+      .then((res) => {
+        console.log(res.data);
+        if (res.data) {
+          toast.success("Logged in Successfully");
+          document.getElementById("my_modal_3").close();
+          setTimeout(() => {
+            window.location.reload();
+            localStorage.setItem("Users", JSON.stringify(res.data.user));
+          }, 1000);
+          // settimeout is used to show popup for 3 seconds
+          // stringify is used to store data into sturcture same as postman into localstorage, .user after
+          // data is used to store only data and not the message
+        }
+      })
+      .catch((err) => {
+        if (err.response) {
+          console.log(err);
+          toast.error("Error: " + err.response.data.message);
+          setTimeout(() => {}, 1000);
+        }
+      });
+  };
   return (
     <div>
       <dialog id="my_modal_3" className="modal">

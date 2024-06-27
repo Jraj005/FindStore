@@ -1,0 +1,20 @@
+installing cors to access backend data in frontend while backend is also running. CORS is a middleware used in index.js file 
+
+we are parsing the data using index.js file to send the data into database.
+but there is a problem we can clearly see the password in the database which is threating the security of user's details
+To secure password we will use bcryptjs, first we will install it using npm, we will create a const hashPassword=bcryptjs.hash(password,10) and pass it into createdUser object.
+here 10 is scale of security, we can also use 8.
+we use "Promise" concept of javascript for the authentication and signup part.
+Also need to write await before isMatch const in user controller, to wait for data to come.
+
+
+Till now we have successfully made the login and signup feature but it is using input from postman, to get data directly from frontend we have to edit the code. 
+in the signup.jsx , create a onsubmit const, which takes data from the data object passed. then use axios to call api to store data in database
+
+After signup we want to store the information of user into browser's localstorage, to give access to course section which is allowed to only registered users only.
+we can use data from localstorage using context API.
+
+using React hot toast: to make popup when login is successful instead of giving alert.
+
+
+PROBLEM: after signup it does not auto reload, have to solve.
